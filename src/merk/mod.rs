@@ -131,8 +131,13 @@ impl Merk {
         self.commit(deleted_keys)
     }
 
+    pub fn close(&self) -> Result<()> {
+        self.db.close();
+        Ok(())
+    }
+
     /// Closes the store and deletes all data from disk.
-    pub fn destroy(self) -> Result<()> {
+    pub fn destroy(&self) -> Result<()> {
         let opts = default_db_opts();
         let path = self.path.clone();
         drop(self);
@@ -219,17 +224,17 @@ impl Merk {
             committer.batch.sort_by(|a, b| a.0.cmp(&b.0));
             for (key, maybe_value) in committer.batch {
                 if let Some(value) = maybe_value {
-                    batch.put(key, value)?;
+                    batch.put(key, value);
                 } else {
-                    batch.delete(key)?;
+                    batch.delete(key);
                 }
             }
 
             // update pointer to root node
-            batch.put(ROOT_KEY_KEY, tree.key())?;
+            batch.put(ROOT_KEY_KEY, tree.key());
         } else {
             // empty tree, delete pointer to root
-            batch.delete(ROOT_KEY_KEY)?;
+            batch.delete(ROOT_KEY_KEY);
         }
 
         // write to db
