@@ -23,7 +23,7 @@ version = "0.7.0"
 features = ["small_rng"]
 
 [dependencies.rocksdb]
-git = "https://github.com/jawid-h/rust-rocksdb"
+git = "https://github.com/dashevo/rust-rocksdb"
 branch = "close-and-destroy"
 default-features = false
 

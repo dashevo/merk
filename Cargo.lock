@@ -378,6 +378,7 @@ dependencies = [
 [[package]]
 name = "librocksdb-sys"
 version = "6.11.4"
+source = "git+https://github.com/dashevo/rust-rocksdb?branch=close-and-destroy#216ea615696d05048eaf256fad69278dfb317641"
 dependencies = [
  "bindgen",
  "cc",
@@ -650,6 +651,7 @@ checksum = "2089e4031214d129e201f8c3c8c2fe97cd7322478a0d1cdf78e7029b0042efdb"
 [[package]]
 name = "rocksdb"
 version = "0.15.0"
+source = "git+https://github.com/dashevo/rust-rocksdb?branch=close-and-destroy#216ea615696d05048eaf256fad69278dfb317641"
 dependencies = [
  "libc",
  "librocksdb-sys",
