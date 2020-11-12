@@ -131,7 +131,7 @@ impl Merk {
         self.commit(deleted_keys)
     }
 
-    pub fn close(&self) -> Result<()> {
+    pub fn close(&mut self) -> Result<()> {
         self.db.close();
         Ok(())
     }
@@ -257,7 +257,9 @@ impl Merk {
 
 impl Drop for Merk {
     fn drop(&mut self) {
-        self.db.flush().unwrap();
+        if !self.db.is_closed {
+          self.db.flush().unwrap();
+        }
     }
 }
 

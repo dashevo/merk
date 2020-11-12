@@ -24,7 +24,7 @@ features = ["small_rng"]
 
 [dependencies.rocksdb]
 git = "https://github.com/dashevo/rust-rocksdb"
-branch = "close-and-destroy"
+branch = "master"
 default-features = false
 
 [dependencies.jemallocator]
