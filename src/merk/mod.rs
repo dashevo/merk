@@ -21,7 +21,7 @@ const ROOT_KEY_KEY: [u8; 12] = *b"\00\00root\00\00";
 /// A handle to a Merkle key/value store backed by RocksDB.
 pub struct Merk {
     tree: Option<Tree>,
-    db: rocksdb::DB,
+    pub db: rocksdb::DB,
     path: PathBuf
 }
 
