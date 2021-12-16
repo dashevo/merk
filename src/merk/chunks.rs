@@ -92,7 +92,11 @@ impl<'a> ChunkProducer<'a> {
                 bail!("Attempted to fetch chunk on empty tree");
             }
             self.index += 1;
-            return self.trunk.encode();
+            return match self.trunk.encode()
+            {
+                Ok(r) => Ok(r),
+                Err(e) => bail!("Can't encode trunk")
+            }
         }
 
         if self.index >= self.len() {
@@ -105,7 +109,12 @@ impl<'a> ChunkProducer<'a> {
         self.index += 1;
 
         let chunk = get_next_chunk(&mut self.raw_iter, end_key_slice)?;
-        chunk.encode()
+
+        return match chunk.encode()
+        {
+            Ok(r) => Ok(r),
+            Err(e) => bail!("Can't encode chunk")
+        }
     }
 }
 

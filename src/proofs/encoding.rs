@@ -72,7 +72,7 @@ impl Decode for Op {
             }
             0x10 => Op::Parent,
             0x11 => Op::Child,
-            _ => bail!("Proof has unexpected value"),
+            _ => return Err(ed::Error::UnexpectedByte(variant)) //bail!("Proof has unexpected value")
         })
     }
 }
@@ -81,7 +81,12 @@ impl Terminated for Op {}
 
 impl Op {
     fn encode_into<W: Write>(&self, dest: &mut W) -> Result<()> {
-        Encode::encode_into(self, dest)
+        return match Encode::encode_into(self, dest)
+        {
+            Ok(r) => Ok(r),
+            Err(e) => bail!("Can't encode")
+        }
+
     }
 
     fn encoding_length(&self) -> usize {
@@ -89,7 +94,12 @@ impl Op {
     }
 
     pub fn decode(bytes: &[u8]) -> Result<Self> {
-        Decode::decode(bytes)
+        return match  Decode::decode(bytes)
+        {
+            Ok(r) => Ok(r),
+            Err(e) => bail!("Can't decode")
+        }
+
     }
 }
 
