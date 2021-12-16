@@ -336,3 +336,23 @@ mod tests {
         assert_eq!(range.next().unwrap().unwrap(), (&[1][..], &[1][..]));
     }
 }
+
+
+/// Extras
+trait SafeBTreeMap {
+    type K;
+    type V;
+    fn last_key_value(&self) -> Option<(&Self::K, &Self::V)>;
+}
+
+impl<KK, VV> SafeBTreeMap for BTreeMap<KK, VV>
+{
+    type K = KK;
+    type V = VV;
+
+    fn last_key_value(&self) -> Option<(&Self::K, &Self::V)>
+    {
+        return self.iter().next_back();
+    }    
+}
+
