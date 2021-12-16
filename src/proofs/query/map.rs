@@ -206,6 +206,7 @@ impl<'a> Iterator for Range<'a> {
 }
 
 /// `BTreeMapExtras` provides extra functionality to work with `BTreeMap` that either missed or unstable
+/// NOTE: We can easily remove this when the following feature will be rolled out into stable rust: https://github.com/rust-lang/rust/issues/62924
 trait BTreeMapExtras {
     type K;
     type V;
