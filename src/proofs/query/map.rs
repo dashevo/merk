@@ -205,6 +205,33 @@ impl<'a> Iterator for Range<'a> {
     }
 }
 
+/// `BTreeMapExtras` provides extra functionality to work with `BTreeMap` that either missed or unstable
+trait BTreeMapExtras {
+    type K;
+    type V;
+
+    /// Returns `None` if `BTreeMap` is empty otherwise the first key-value pair in the map.
+    /// The key in this pair is the minimum key in the map.
+    fn first_key_value(&self) -> Option<(&Self::K, &Self::V)>;
+
+    /// Returns `None` if `BTreeMap` is empty otherwise the last key-value pair in the map.
+    /// The key in this pair is the maximum key in the map.
+    fn last_key_value(&self) -> Option<(&Self::K, &Self::V)>;
+}
+
+impl<KK: Ord, VV: Ord> BTreeMapExtras for BTreeMap<KK, VV> {
+    type K = KK;
+    type V = VV;
+
+    fn first_key_value(&self) -> Option<(&Self::K, &Self::V)> {
+        self.iter().next()
+    }
+
+    fn last_key_value(&self) -> Option<(&Self::K, &Self::V)> {
+        self.iter().next_back()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -338,21 +365,4 @@ mod tests {
 }
 
 
-/// Extras
-trait SafeBTreeMap {
-    type K;
-    type V;
-    fn last_key_value(&self) -> Option<(&Self::K, &Self::V)>;
-}
-
-impl<KK, VV> SafeBTreeMap for BTreeMap<KK, VV>
-{
-    type K = KK;
-    type V = VV;
-
-    fn last_key_value(&self) -> Option<(&Self::K, &Self::V)>
-    {
-        return self.iter().next_back();
-    }    
-}
 
